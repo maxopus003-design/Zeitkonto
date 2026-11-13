@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#111827" />
+<title>Schichtkonto – Version 2.1</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#687386;--line:#e6eaf0;--accent:#2563eb;--accent2:#dbeafe;--green:#16845b;--greenbg:#dcfce7;--orange:#b45309;--orangebg:#fef3c7;--red:#b91c1c;--redbg:#fee2e2;--nav:#111827}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{-webkit-text-size-adjust:100%;overflow:hidden;height:100%;overscroll-behavior:none;touch-action:manipulation}body{margin:0;overflow:hidden;width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overscroll-behavior:none;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--nav);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;border-radius:0 0 18px 18px;flex:none;position:relative;z-index:6}
+.eyebrow{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#aeb9ca;font-weight:700}h1{font-size:19px;line-height:1.1;margin:2px 0 1px}header p{margin:0;color:#cbd5e1;font-size:11px}
+.monthrow{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px}.monthrow button{background:#273449;color:#fff;border:1px solid #3c4b62;border-radius:9px;padding:3px 11px;font-size:15px;line-height:1.2}.monthname{font-size:14px;font-weight:750}
+main{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;margin-top:-18px;padding:28px max(12px,calc((100% - 720px)/2)) 12px}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.grid>*,.row>*{min-width:0}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 13px;box-shadow:0 2px 8px #0f172a08;margin-bottom:8px}.statlabel{color:var(--muted);font-size:11px;font-weight:650}.stat{font-size:clamp(17px,5.2vw,21px);font-weight:800;letter-spacing:-.04em;margin:1px 0 0}.sub{font-size:10.5px;color:var(--muted)}
+.progress{height:7px;background:#e8edf4;border-radius:99px;overflow:hidden;margin:7px 0 5px}.progress span{display:block;height:100%;background:var(--green);width:0;border-radius:99px;transition:width .2s}.progress.warn span{background:#d97706}.progress.danger span{background:var(--red)}
+h2{font-size:15px;margin:0 0 8px;letter-spacing:-.02em}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px}.sectionhead h2{margin:0;min-width:0}.sectionhead:has(h2){margin-bottom:8px}.sectionhead>button,.sectionhead>.pill{flex-shrink:0}.pill{font-size:11px;font-weight:750;border-radius:99px;padding:5px 9px;background:var(--accent2);color:#1d4ed8}.pill.green{background:var(--greenbg);color:var(--green)}.pill.orange{background:var(--orangebg);color:var(--orange)}.pill.red{background:var(--redbg);color:var(--red)}
+label{display:block;font-size:12px;font-weight:700;color:#536075;margin:8px 0 4px}input,select{width:100%;border:1px solid #d7dee8;background:#fff;border-radius:11px;padding:9px 12px;font:inherit;font-size:16px;color:var(--ink);min-height:42px;min-width:0;max-width:100%}input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;display:block;text-align:left;line-height:1.2}input::-webkit-date-and-time-value{text-align:left;min-height:1.2em}input:focus,select:focus{outline:2px solid #bfdbfe;border-color:var(--accent)}.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.btn{border:0;border-radius:12px;padding:9px 12px;font:inherit;font-weight:750;cursor:pointer;min-height:40px}.primary{background:var(--accent);color:#fff}.soft{background:#edf2f8;color:#263449}.dangerbtn{background:var(--redbg);color:var(--red)}.full{width:100%;margin-top:8px}.smallbtn{padding:7px 10px;min-height:34px;font-size:12px;border-radius:9px}
+.hint,.note{color:var(--muted);font-size:11px;line-height:1.4}.hint{margin-top:8px}.hidden{display:none!important}
+.entry{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}.entry:last-child{border-bottom:0}.rrow{display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line);padding:5px 0}.rinfo{flex:1;min-width:0}.ibtn{flex:none;border:0;background:#edf2f8;color:#263449;border-radius:9px;min-width:34px;height:34px;padding:0 8px;font:inherit;font-size:14px;font-weight:750;cursor:pointer}.ibtn.del{background:var(--redbg);color:var(--red)}.rrow.hl{background:#eff6ff;border-radius:10px;padding:5px 8px;border-bottom-color:transparent;box-shadow:inset 3px 0 0 var(--accent)}.chart{display:flex;gap:4px}.yax{position:relative;width:34px;height:98px;flex:none}.yax span{position:absolute;right:0;font-size:9px;line-height:12px;color:var(--muted);white-space:nowrap}.yax span.lm{color:var(--accent);font-weight:800}.plot{position:relative;flex:1;min-width:0;height:98px}.bl{position:absolute;left:0;right:0;bottom:14px;border-top:1px solid var(--line)}.lim{position:absolute;left:0;right:0;border-top:1.5px dashed var(--accent);z-index:1;pointer-events:none}.bars{position:absolute;inset:0;display:flex;gap:3px}.bcol{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}.bbar{display:flex;flex-direction:column;width:100%;max-width:24px;background:#bfdbfe;border-radius:5px 5px 2px 2px;overflow:hidden}.bbar i{display:block;background:var(--green)}.bcol:not(.cur) .bbar i{background:#9fd9bc}.blab{font-size:9px;color:var(--muted);height:14px;line-height:14px}.bcol.cur .bbar{background:var(--accent)}.bcol.cur .blab{color:var(--accent);font-weight:750}.bub{position:absolute;z-index:3;width:124px;background:var(--nav);color:#fff;border-radius:9px;padding:5px 8px;font-size:10.5px;line-height:1.35;pointer-events:none}.bub::after{content:'';position:absolute;top:100%;left:var(--ax,50%);margin-left:-5px;border:5px solid transparent;border-top-color:var(--nav)}.bub .r{display:flex;justify-content:space-between;gap:6px}.ibtn.arm{background:var(--red);color:#fff;font-size:11px}.rrow:last-child{border-bottom:0}.rtop{display:flex;justify-content:space-between;gap:8px;font-size:13px}.rmeta{display:block;font-size:10.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rrow.fade,.entry.fade{-webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.06) 100%);mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.06) 100%)}.entrytitle{font-weight:750;overflow-wrap:anywhere}.entrymeta{font-size:11px;color:var(--muted);margin-top:1px}.entryright{text-align:right;white-space:nowrap}.entrypay{font-weight:800}.empty{padding:18px 8px;color:var(--muted);text-align:center;font-size:13px}
+.tabs{position:relative;z-index:5;flex:none;display:flex;justify-content:center;gap:4px;background:#fff;border-top:1px solid var(--line);padding:4px 8px calc(4px + env(safe-area-inset-bottom))}.tab{flex:1;min-width:0;max-width:180px;border:0;background:transparent;color:#697386;padding:8px 2px;border-radius:10px;font-size:10.5px;font-weight:750;white-space:nowrap}.tab span{display:block;font-size:16px;margin-bottom:0}.tab.active{color:var(--accent);background:#eff6ff}
+.view{display:none}.view.active{display:block}.warnbox{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px 12px;border-radius:12px;font-size:12px;margin-top:12px}.successbox{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;padding:11px 12px;border-radius:12px;font-size:12px;margin-top:12px}.divider{height:1px;background:var(--line);margin:10px 0}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.wd{text-align:center;font-size:11px;font-weight:750;color:var(--muted);padding-bottom:2px}
+.day{min-width:0;overflow:hidden;border:1px solid var(--line);background:#fff;border-radius:11px;min-height:44px;padding:4px 2px;font:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}.day b{font-size:14px}.day small{font-size:10px;font-weight:750;color:var(--green)}
+.day.work{background:var(--greenbg);border-color:#86efac}.day.free{background:#f1f5f9;color:#94a3b8}.day.today b{color:var(--accent);text-decoration:underline}.day.sel{outline:2px solid var(--accent);outline-offset:1px}.day.blank{visibility:hidden}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted)}.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:5px;border:1px solid var(--line)}
+#modal{position:fixed;inset:0;z-index:20;background:#0f172a99;display:flex;align-items:flex-end;justify-content:center}.panel{background:#fff;width:100%;max-width:720px;max-height:92vh;max-height:92dvh;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+@media(min-width:600px){.grid{gap:14px}.card{padding:19px}.stat{font-size:29px}.day{min-height:64px}}
+@media(max-width:420px){.entry{flex-wrap:wrap}.entryright{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left}.entryright>div:last-child{margin-top:0!important}.entryright .smallbtn{min-height:42px;padding:9px 12px}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheet{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes bounce{0%{transform:scale(.7)}60%{transform:scale(1.22)}100%{transform:scale(1)}}
+@keyframes swap{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+header{animation:drop .6s cubic-bezier(.22,1,.36,1) backwards}
+.view.active>.card,.view.active>.btn,.view.active .grid>.card{animation:rise .55s cubic-bezier(.22,1,.36,1) backwards}
+.view.active>:nth-child(1){animation-delay:.03s}.view.active>:nth-child(2){animation-delay:.33s}.view.active>:nth-child(3){animation-delay:.4s}.view.active>:nth-child(4){animation-delay:.47s}
+.view.active .grid>.card:nth-child(1){animation-delay:.03s}.view.active .grid>.card:nth-child(2){animation-delay:.09s}.view.active .grid>.card:nth-child(3){animation-delay:.15s}.view.active .grid>.card:nth-child(4){animation-delay:.21s}.view.active .grid>.card:nth-child(5){animation-delay:.27s}
+#calView.active>:nth-child(2){animation-delay:.1s}#settingsView.active>:nth-child(2){animation-delay:.1s}#settingsView.active>:nth-child(3){animation-delay:.17s}
+#modal:not(.hidden){animation:fadeIn .2s both}#modal:not(.hidden) .panel{animation:sheet .38s cubic-bezier(.22,1,.36,1) both}
+.bub:not(.hidden){animation:pop .25s cubic-bezier(.34,1.56,.64,1) both;transform-origin:50% 100%}
+.btn,.ibtn,.tab{transition:transform .12s,background-color .25s,color .25s}
+.btn:active,.ibtn:active,.tab:active{transform:scale(.95)}
+.tab.active span{animation:bounce .45s cubic-bezier(.34,1.56,.64,1)}
+.monthname.swap{animation:swap .35s cubic-bezier(.22,1,.36,1)}
+.cal.swap2{animation:fadeIn .4s both}
+.day{transition:background-color .2s,transform .12s}.day:active{transform:scale(.92)}
+.progress span{transition:width 1s cubic-bezier(.22,1,.36,1),background-color .4s}
+.bbar,.bbar i{transition:height .9s cubic-bezier(.22,1,.36,1),background-color .35s,transform .12s}
+.bcol:active .bbar{transform:scale(.94)}
+.bars.intro .bbar,.bars.intro .bbar i{transition-delay:calc(var(--i)*45ms)}
+.lim,.yax span{transition:bottom .9s cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Schichtkonto" />
+</head>
+<body>
+<header>
+  <div class="eyebrow">Dein Arbeitszeitkonto</div>
+  <h1>Schichtkonto</h1>
+  <p>Stempeln. Überblick behalten. Fair planen.</p>
+  <div class="monthrow">
+    <button id="prevMonth" aria-label="Vorheriger Monat">‹</button>
+    <div class="monthname" id="monthName"></div>
+    <button id="nextMonth" aria-label="Nächster Monat">›</button>
+  </div>
+</header>
+<main>
+  <section id="homeView" class="view active">
+    <div class="grid">
+      <div class="card"><div class="statlabel">Gearbeitet diesen Monat</div><div class="stat" id="hoursStat">0:00 h</div><div class="sub" id="daysStat">0 Schichten</div></div>
+      <div class="card"><div class="statlabel">Berechneter Verdienst</div><div class="stat" id="payStat">0,00 €</div><div class="sub">bei <span id="wageLabel"></span>/h</div></div>
+      <div class="card"><div class="statlabel">Bis zum Limit</div><div class="stat" id="leftStat">0:00 h</div><div class="sub" id="leftPay"></div></div>
+      <div class="card"><div class="statlabel">Über dem Limit erfasst</div><div class="stat" id="overStat">0:00 h</div><div class="sub" id="overPay"></div></div>
+      <div class="card" style="grid-column:1/-1"><div class="statlabel">Trinkgeld diesen Monat</div><div class="stat" id="tipStat">0,00 €</div><div class="sub" id="tipSub">Nicht in Verdienst &amp; Limit enthalten</div></div>
+    </div>
+    <div class="card">
+      <h2 id="barTitle">Gesamtverdienst</h2>
+      <p class="note" id="barSum" style="margin:-4px 0 8px"></p>
+      <div class="chart">
+        <div class="yax" id="yax"></div>
+        <div class="plot" id="plot">
+          <div class="bl"></div><div class="lim" id="limLine"></div>
+          <div class="bars" id="tipBars"></div>
+          <div class="bub hidden" id="bub"></div>
+        </div>
+      </div>
+      <div class="legend" style="margin-top:8px"><span><i style="background:#bfdbfe"></i>Verdienst</span><span><i style="background:var(--green)"></i>Trinkgeld</span><span><i style="background:none;border:0;border-top:2px dashed var(--accent);height:0;border-radius:0;vertical-align:3px"></i>Limit</span></div>
+    </div>
+    <div class="card">
+      <div class="sectionhead"><h2>Monatslimit</h2><span class="pill green" id="limitBadge">Im Rahmen</span></div>
+      <div class="progress" id="progress"><span id="progressBar"></span></div>
+      <div class="sectionhead"><span class="sub" id="progressText"></span><strong id="remainingMoney"></strong></div>
+    </div>
+    <button class="btn primary full" data-add="">+ Schicht eintragen</button>
+  </section>
+
+  <section id="calView" class="view">
+    <div class="card">
+      <div class="sectionhead"><h2>Kalender</h2><span class="pill green" id="calBadge"></span></div>
+      <div class="cal" id="calGrid"></div>
+      <div class="legend"><span><i style="background:var(--greenbg);border-color:#86efac"></i>Da gewesen</span><span><i style="background:#f1f5f9"></i>Frei</span></div>
+    </div>
+    <div class="card">
+      <div class="sectionhead"><h2 id="dayTitle"></h2><button class="btn soft smallbtn" id="addForDay">+ Schicht</button></div>
+      <p class="note" id="daySub" style="margin:-4px 0 6px"></p>
+      <div id="dayEntries"></div>
+    </div>
+  </section>
+
+  <section id="settingsView" class="view">
+    <div class="card">
+      <h2>Deine Einstellungen</h2>
+      <div class="row">
+        <div><label for="wageInput">Stundenlohn (€)</label><input id="wageInput" type="number" min="0.01" step="0.01" /></div>
+        <div><label for="limitInput">Monatslimit (€)</label><input id="limitInput" type="number" min="1" step="1" /></div>
+      </div>
+      <button class="btn primary full" id="saveSettings">Einstellungen speichern</button>
+      <div class="successbox">Standard: 14 €/h und 603 € pro Monat. Trinkgeld zählt nie zu Verdienst und Limit.</div>
+    </div>
+    <div class="card">
+      <h2>Daten &amp; Datenschutz</h2>
+      <p class="note">Deine Einträge bleiben in diesem Browser auf diesem Gerät gespeichert. Wenn du Browserdaten löschst oder ein anderes Gerät nutzt, können die Daten verloren gehen. Erstelle regelmäßig eine JSON-Sicherung.</p>
+      <button class="btn soft full" id="exportBtn">Monat als CSV exportieren</button>
+      <button class="btn soft full" id="backupBtn">Daten als JSON sichern</button>
+      <label for="restoreFile">Sicherung wiederherstellen</label>
+      <input type="file" id="restoreFile" accept=".json,application/json" />
+      <button class="btn dangerbtn full" id="clearBtn">Alle Daten löschen</button>
+    </div>
+    <div class="card">
+      <h2>Wichtiger Hinweis</h2>
+      <p class="note">Das Tool zeigt dir eine rechnerische Orientierung anhand deiner Angaben. Ob und wie Mehrarbeit über dem Minijob-Limit rechtlich abgerechnet werden darf, hängt unter anderem vom Abrechnungszeitraum und den geltenden Regeln ab. Kläre die konkrete Behandlung bei Bedarf mit deinem Arbeitgeber oder der Minijob-Zentrale.</p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button class="tab active" data-view="homeView"><span>⌂</span>Übersicht</button>
+  <button class="tab" data-view="calView"><span>▦</span>Kalender</button>
+  <button class="tab" data-view="settingsView"><span>⚙</span>Einstellungen</button>
+</nav>
+
+<div id="modal" class="hidden" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="sectionhead"><h2 id="formTitle">Schicht eintragen</h2><button type="button" class="btn soft smallbtn" id="closeForm">✕</button></div>
+    <form id="shiftForm">
+      <input type="hidden" id="fId" />
+      <label for="fDate">Datum</label><input type="date" id="fDate" required />
+      <label for="fShift">Dienst</label><select id="fShift" required></select>
+      <div class="row">
+        <div><label for="fStart">Beginn</label><input type="time" id="fStart" required /></div>
+        <div><label for="fEnd">Ende</label><input type="time" id="fEnd" required /></div>
+      </div>
+      <p class="hint">Ende vor Beginn bedeutet: Die Schicht endete am Folgetag.</p>
+      <label for="fTip">Trinkgeld (€, optional)</label>
+      <input type="number" id="fTip" min="0" step="0.01" inputmode="decimal" placeholder="0,00" />
+      <div id="formError" class="warnbox hidden"></div>
+      <button type="submit" class="btn primary full">Speichern</button>
+      <button type="button" class="btn dangerbtn full hidden" id="deleteForm">Schicht löschen</button>
+      <button type="button" class="btn soft full" id="cancelForm">Abbrechen</button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+const SHIFTS=["Technik Abends","Technik Mittags","Service Abends","Service Mittags","Matinee Service","Matinee Technik","Veranstaltung"];
+const $=id=>document.getElementById(id);
+const euro=n=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(n);
+const pad=n=>String(n).padStart(2,'0');
+const dateFmt=s=>new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(s+'T12:00:00'));
+const longFmt=s=>new Intl.DateTimeFormat('de-DE',{weekday:'long',day:'numeric',month:'long'}).format(new Date(s+'T12:00:00'));
+const shortFmt=d=>new Intl.DateTimeFormat('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'}).format(new Date(d+'T12:00:00'));
+const minsToText=m=>{m=Math.max(0,Math.round(m));return Math.floor(m/60)+':'+pad(m%60)+' h'};
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const todayISO=()=>iso(new Date());
+const parseTime=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+const tipVal=v=>{const n=parseFloat(String(v).replace(',','.'));return isFinite(n)&&n>0?Math.round(n*100)/100:0};
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let shown=new Date(new Date().getFullYear(),new Date().getMonth(),1),sel=todayISO(),dayOpen=false,pendingDel=null,delT=null,barSel=null;
+let data={entries:[],plans:[],active:null,settings:{wage:14,limit:603}};
+try{const s=JSON.parse(localStorage.getItem('schichtkonto-v1')||'null');if(s&&typeof s==='object')data={...data,...s,settings:{...data.settings,...(s.settings||{})}}}catch(e){}
+function persist(){localStorage.setItem('schichtkonto-v1',JSON.stringify(data));render()}
+SHIFTS.forEach(s=>{const o=document.createElement('option');o.textContent=s;$('fShift').appendChild(o)});
+const entryMins=e=>{let a=parseTime(e.start),b=parseTime(e.end);if(b<a)b+=1440;return Math.max(0,b-a-(Number(e.pause)||0))};
+const ed=e=>e.date||(e.startAt&&e.startAt.slice(0,10))||todayISO();
+const monthKey=()=>shown.getFullYear()+'-'+pad(shown.getMonth()+1);
+const monthEntries=()=>data.entries.filter(e=>ed(e).slice(0,7)===monthKey());
+const byTime=(a,b)=>(ed(b)+b.start).localeCompare(ed(a)+a.start);
+function sums(){const es=monthEntries(),total=es.reduce((a,e)=>a+entryMins(e),0),tips=Math.round(es.reduce((a,e)=>a+(Number(e.tip)||0),0)*100)/100,wage=Number(data.settings.wage)||0,limit=Number(data.settings.limit)||0,pay=Math.round(total*wage/60*100)/100,limitMins=wage>0?limit/wage*60:0;
+return{es,total,tips,wage,limit,pay,left:Math.max(0,limitMins-total),over:Math.max(0,total-limitMins),overPay:Math.max(0,Math.round((pay-limit)*100)/100),remaining:Math.max(0,Math.round((limit-pay)*100)/100)}}
+function dayHTML(de){const more=de.length>3,cut=more&&!dayOpen;let h=(cut?de.slice(0,3):de).map((e,i)=>recentHTML(e,cut&&i===2)).join('');if(more)h+=`<button class="btn soft full smallbtn" data-more="1">${dayOpen?'Weniger anzeigen':'Mehr anzeigen'}</button>`;return h}
+function recentHTML(e,fade){const m=entryMins(e),pay=m/60*(Number(data.settings.wage)||0),tip=Number(e.tip)||0,arm=pendingDel===String(e.id);
+return `<div class="rrow${fade?' fade':''}${ed(e)===sel?' hl':''}"><div class="rinfo"><span class="rtop"><b>${escapeHTML(e.shift)}</b><b>${euro(pay)}</b></span><span class="rmeta">${shortFmt(ed(e))} · ${e.start}–${e.end} · ${minsToText(m)}</span><span class="rmeta">${tip>0?'Trinkgeld '+euro(tip):'Kein Trinkgeld'}</span></div><button class="ibtn" data-edit="${e.id}" aria-label="Bearbeiten">✎</button><button class="ibtn del${arm?' arm':''}" data-delete="${e.id}" aria-label="Löschen">${arm?'Löschen?':'✕'}</button></div>`}
+const cur={},tgt={},raf={},calm=matchMedia('(prefers-reduced-motion: reduce)').matches;let firstRun=true;
+function countTo(id,to,fmt){const el=$(id);
+ if(tgt[id]===to){if(!raf[id])el.textContent=fmt(to);return}
+ const from=cur[id]===undefined?0:cur[id];tgt[id]=to;cancelAnimationFrame(raf[id]);raf[id]=0;
+ if(calm||from===to){cur[id]=to;el.textContent=fmt(to);return}
+ const d=firstRun?1100:520,t0=performance.now();
+ const step=t=>{const k=Math.min(1,(t-t0)/d),v=from+(to-from)*(1-Math.pow(1-k,4));cur[id]=v;el.textContent=fmt(k<1?v:to);if(k<1)raf[id]=requestAnimationFrame(step);else{raf[id]=0;cur[id]=to}};
+ raf[id]=requestAnimationFrame(step)}
+function render(){
+ const s=sums(),y=shown.getFullYear(),mo=shown.getMonth();
+ {const mn=new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(shown),mel=$('monthName');if(mel.textContent!==mn){mel.textContent=mn;mel.classList.remove('swap');void mel.offsetWidth;mel.classList.add('swap')}}
+ countTo('hoursStat',s.total,minsToText);$('daysStat').textContent=s.es.length+(s.es.length===1?' Schicht':' Schichten');
+ countTo('payStat',s.pay,euro);$('wageLabel').textContent=euro(s.wage);
+ countTo('leftStat',s.left,minsToText);countTo('leftPay',s.remaining,v=>euro(v)+' verfügbar');
+ countTo('overStat',s.over,minsToText);countTo('overPay',s.overPay,v=>euro(v)+' über dem Limit');
+ countTo('remainingMoney',s.remaining,v=>euro(v)+' übrig');countTo('tipStat',s.tips,euro);
+ const yr=shown.getFullYear(),mnames=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],wg=Number(data.settings.wage)||0,months=[];
+ for(let i=0;i<12;i++){const k=yr+'-'+pad(i+1),es=data.entries.filter(e=>ed(e).slice(0,7)===k);months.push({k,lab:mnames[i],pay:Math.round(es.reduce((a,e)=>a+entryMins(e),0)*wg/60*100)/100,tip:Math.round(es.reduce((a,e)=>a+(Number(e.tip)||0),0)*100)/100})}
+ const L=Number(data.settings.limit)||0,H=84,M=Math.max(L,...months.map(m=>m.pay+m.tip),1),sc=v=>Math.round(v/M*H),sp=months.reduce((a,m)=>a+m.pay,0),st=months.reduce((a,m)=>a+m.tip,0);
+ $('barTitle').textContent='Gesamtverdienst '+yr;countTo('barSum',sp+st,v=>euro(v)+' · davon Trinkgeld '+euro(st));
+ const tb=$('tipBars'),made=tb.children.length!==12,later=f=>made?requestAnimationFrame(()=>requestAnimationFrame(f)):f();
+ if(made){tb.innerHTML=months.map((m,i)=>`<button class="bcol" style="--i:${i}"><span class="bbar" style="height:0px"><i style="height:0px"></i></span><span class="blab"></span></button>`).join('');tb.classList.add('intro');setTimeout(()=>tb.classList.remove('intro'),1800)}
+ const ll=$('limLine'),lpos=(14+sc(L))+'px';later(()=>{ll.style.bottom=lpos});
+ const ticks=[[0,''],[L,'lm']];if(M>L&&sc(M)-sc(L)>=12)ticks.push([M,'']);if(L>0&&sc(L/2)>=12&&sc(L)-sc(L/2)>=12)ticks.push([L/2,'']);
+ const yx=$('yax');while(yx.children.length>ticks.length)yx.lastChild.remove();
+ ticks.forEach(([v,c],i)=>{let el=yx.children[i],fresh=false;if(!el){el=document.createElement('span');el.style.bottom='8px';yx.appendChild(el);fresh=true}
+  el.className=c;el.textContent=Math.round(v).toLocaleString('de-DE')+(c?' €':'');const pos=(14+sc(v)-6)+'px';
+  if(fresh)requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.bottom=pos}));else el.style.bottom=pos});
+ months.forEach((m,i)=>{const t=m.pay+m.tip,h=t>0?Math.max(3,sc(t)):0,hp=t>0?Math.round(h*m.pay/t):0;m.h=h;const b=tb.children[i],bar=b.children[0];
+  b.dataset.m=m.k;b.classList.toggle('cur',m.k===monthKey());b.children[1].textContent=m.lab;
+  later(()=>{bar.style.height=(h||2)+'px';bar.style.backgroundColor=h?'':'#e5e7eb';bar.firstChild.style.height=(h?h-hp:0)+'px'})});
+ const bub=$('bub'),sm=months.find(m=>m.k===barSel);
+ if(sm&&$('homeView').classList.contains('active')){const b=tb.querySelector('[data-m="'+barSel+'"]'),cx=b.offsetLeft+b.offsetWidth/2,l=Math.max(0,Math.min($('plot').clientWidth-124,cx-62));
+  bub.innerHTML='<div class="r"><span>Verdienst</span><b>'+euro(sm.pay)+'</b></div><div class="r"><span>Trinkgeld</span><b>'+euro(sm.tip)+'</b></div>';
+  bub.style.left=l+'px';bub.style.bottom=(14+(sm.h||2)+8)+'px';bub.style.setProperty('--ax',(cx-l)+'px');bub.classList.remove('hidden')}else bub.classList.add('hidden');
+ const withTip=s.es.filter(e=>Number(e.tip)>0).length;$('tipSub').textContent=(withTip?'Aus '+withTip+(withTip===1?' Schicht':' Schichten')+' · ':'')+'Nicht in Verdienst & Limit enthalten';
+ const pct=s.limit>0?Math.min(100,s.pay/s.limit*100):0;
+ {const pb=$('progressBar'),setW=()=>{pb.style.width=pct+'%'};if(firstRun)requestAnimationFrame(()=>requestAnimationFrame(setW));else setW()}countTo('progressText',pct,v=>v.toLocaleString('de-DE',{maximumFractionDigits:1})+' % des Limits genutzt');
+ $('progress').className='progress'+(pct>=100?' danger':pct>=85?' warn':'');
+ $('limitBadge').className='pill '+(s.pay>=s.limit?'red':pct>=85?'orange':'green');$('limitBadge').textContent=s.pay>=s.limit?'Limit erreicht':pct>=85?'Bald am Limit':'Im Rahmen';
+  const days=new Date(y,mo+1,0).getDate(),offset=(new Date(y,mo,1).getDay()+6)%7,today=todayISO(),perDay={};
+ s.es.forEach(e=>{perDay[ed(e)]=(perDay[ed(e)]||0)+entryMins(e)});
+ let html=['Mo','Di','Mi','Do','Fr','Sa','So'].map(d=>`<div class="wd">${d}</div>`).join('')+'<div class="day blank"></div>'.repeat(offset);
+ let worked=0,free=0;
+ for(let d=1;d<=days;d++){const k=y+'-'+pad(mo+1)+'-'+pad(d),w=perDay[k]!==undefined;
+  if(w)worked++;else if(k<today)free++;
+  html+=`<button class="day${w?' work':k<today?' free':''}${k===today?' today':''}${k===sel?' sel':''}" data-day="${k}"><b>${d}</b>${w?`<small>${minsToText(perDay[k]).replace(' h','')}</small>`:''}</button>`}
+ $('calGrid').innerHTML=html;if($('calGrid').dataset.k!==monthKey()){$('calGrid').dataset.k=monthKey();const g=$('calGrid');g.classList.remove('swap2');void g.offsetWidth;g.classList.add('swap2')}
+ $('calBadge').textContent=worked+(worked===1?' Tag da':' Tage da')+' · '+free+' frei';
+ $('dayTitle').textContent='Alle Schichten';
+ const mine=s.es.filter(e=>ed(e)===sel).sort((a,b)=>a.start.localeCompare(b.start)),rest=s.es.filter(e=>ed(e)!==sel).sort((a,b)=>(ed(a)+a.start).localeCompare(ed(b)+b.start)),de=[...mine,...rest];
+ $('daySub').textContent=longFmt(sel)+(mine.length?'':' · kein Dienst');
+ $('dayEntries').innerHTML=de.length?dayHTML(de):'<div class="empty">Noch keine Schichten in diesem Monat.</div>';
+ $('wageInput').value=data.settings.wage;$('limitInput').value=data.settings.limit;
+}
+function switchView(id){barSel=null;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===(id==='listView'?'homeView':id)));document.querySelector('main').scrollTo({top:0,behavior:'smooth'});render()}
+function openForm(e,date){$('formError').classList.add('hidden');
+ $('formTitle').textContent=e?'Schicht bearbeiten':'Schicht eintragen';$('deleteForm').classList.toggle('hidden',!e);$('deleteForm').dataset.arm='';$('deleteForm').textContent='Schicht löschen';
+ $('fId').value=e?e.id:'';$('fDate').value=e?ed(e):(date||todayISO());$('fShift').value=e?e.shift:SHIFTS[0];
+ $('fStart').value=e?e.start:'18:00';$('fEnd').value=e?e.end:'23:00';$('fTip').value=e&&Number(e.tip)>0?e.tip:'';
+ $('modal').classList.remove('hidden')}
+function closeForm(){$('modal').classList.add('hidden')}
+$('closeForm').onclick=closeForm;$('cancelForm').onclick=closeForm;
+$('deleteForm').onclick=()=>{const b=$('deleteForm'),id=$('fId').value;if(!id)return;if(b.dataset.arm!=='1'){b.dataset.arm='1';b.textContent='Wirklich löschen? Nochmal tippen';return}data.entries=data.entries.filter(e=>String(e.id)!==id);closeForm();persist()};
+$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeForm()});
+$('shiftForm').onsubmit=ev=>{ev.preventDefault();const err=$('formError'),raw=$('fTip').value;
+ const show=t=>{err.textContent=t;err.classList.remove('hidden')};
+ if(raw!==''&&!(Number(raw)>=0))return show('Bitte gib ein gültiges Trinkgeld ein (0 oder mehr).');
+ const c={date:$('fDate').value,shift:$('fShift').value,start:$('fStart').value,end:$('fEnd').value,pause:0,tip:tipVal(raw)};
+ if(!c.date||c.start===c.end||entryMins(c)<=0)return show('Bitte prüfe die Zeiten: Die Arbeitszeit muss größer als 0 sein.');
+ const id=$('fId').value,ex=id&&data.entries.find(x=>String(x.id)===id);
+ const others=data.entries.filter(x=>ed(x)===c.date&&String(x.id)!==id).reduce((a,x)=>a+entryMins(x),0);
+ if(others+entryMins(c)>1440)return show('Pro Tag sind maximal 24 Stunden möglich. An diesem Tag sind noch '+minsToText(Math.max(0,1440-others))+' frei.');
+ if(ex){Object.assign(ex,c);delete ex.startAt}else data.entries.push({id:String(Date.now())+Math.random(),...c});
+ const dt=new Date(c.date+'T12:00:00');shown=new Date(dt.getFullYear(),dt.getMonth(),1);sel=c.date;dayOpen=false;closeForm();persist()};
+document.addEventListener('click',ev=>{
+ if(barSel&&!ev.target.closest('[data-m]')){barSel=null;render()}
+ const t=ev.target.closest('button');if(!t)return;
+ if(t.dataset.view){switchView(t.dataset.view);return}
+ if(t.dataset.day!==undefined){sel=t.dataset.day;dayOpen=false;pendingDel=null;render();return}
+ if(t.dataset.m){barSel=barSel===t.dataset.m?null:t.dataset.m;render();return}
+ if(t.dataset.more!==undefined){dayOpen=!dayOpen;render();return}
+ if(t.dataset.add!==undefined){openForm(null,todayISO());return}
+ if(t.dataset.edit){const e=data.entries.find(x=>String(x.id)===t.dataset.edit);if(e)openForm(e);return}
+ if(t.dataset.delete){const id=t.dataset.delete;clearTimeout(delT);if(pendingDel===id){pendingDel=null;data.entries=data.entries.filter(e=>String(e.id)!==id);persist()}else{pendingDel=id;render();delT=setTimeout(()=>{pendingDel=null;render()},3000)}}
+});
+$('addForDay').onclick=()=>openForm(null,sel);
+const shiftMonth=n=>{shown=new Date(shown.getFullYear(),shown.getMonth()+n,1);dayOpen=false;const t=new Date();sel=shown.getFullYear()===t.getFullYear()&&shown.getMonth()===t.getMonth()?todayISO():iso(shown);render()};
+$('prevMonth').onclick=()=>shiftMonth(-1);$('nextMonth').onclick=()=>shiftMonth(1);
+$('saveSettings').onclick=()=>{const wage=Number($('wageInput').value),limit=Number($('limitInput').value);if(!(wage>0&&limit>0)){alert('Bitte gib gültige Werte größer als 0 ein.');return}data.settings={wage,limit};persist();alert('Einstellungen gespeichert.')};
+function download(name,content,type){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+const num=n=>Number(n).toFixed(2).replace('.',',');
+$('exportBtn').onclick=()=>{const rows=[['Datum','Dienst','Beginn','Ende','Pause Minuten','Arbeitsminuten','Stunden','Verdienst Euro','Trinkgeld Euro'],...monthEntries().sort((a,b)=>-byTime(a,b)).map(e=>[ed(e),e.shift,e.start,e.end,e.pause||0,entryMins(e),num(entryMins(e)/60),num(entryMins(e)/60*data.settings.wage),num(Number(e.tip)||0)])];
+ download('schichtkonto-'+monthKey()+'.csv','\ufeff'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n'),'text/csv;charset=utf-8')};
+$('backupBtn').onclick=()=>download('schichtkonto-sicherung-'+todayISO()+'.json',JSON.stringify(data,null,2),'application/json');
+$('restoreFile').onchange=async ev=>{const f=ev.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.entries)||!d.settings)throw Error();if(confirm('Aktuelle Daten durch die Sicherung ersetzen?')){data={...data,...d,plans:d.plans||[]};persist();alert('Sicherung geladen.')}}catch(err){alert('Die Datei sieht nicht wie eine gültige Schichtkonto-Sicherung aus.')}ev.target.value=''};
+$('clearBtn').onclick=()=>{if(confirm('Wirklich alle Schichten und Einstellungen zurücksetzen? Das lässt sich nicht rückgängig machen.')){data={entries:[],plans:[],active:null,settings:{wage:14,limit:603}};persist()}};
+document.addEventListener('gesturestart',e=>e.preventDefault());
+render();firstRun=false;
+})();
+</script>
+  <script>if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));</script>
+</body>
+</html>
