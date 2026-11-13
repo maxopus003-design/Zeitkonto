@@ -4,10 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#111827" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Schichtkonto" />
 <title>Schichtkonto – Version 2.1</title>
 <style>
 :root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#687386;--line:#e6eaf0;--accent:#2563eb;--accent2:#dbeafe;--green:#16845b;--greenbg:#dcfce7;--orange:#b45309;--orangebg:#fef3c7;--red:#b91c1c;--redbg:#fee2e2;--nav:#111827}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{-webkit-text-size-adjust:100%;overflow:hidden;height:100%;overscroll-behavior:none;touch-action:manipulation}body{margin:0;overflow:hidden;width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;overscroll-behavior:none;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{-webkit-text-size-adjust:100%;overflow:hidden;height:100%;overscroll-behavior:none;touch-action:manipulation}body{margin:0;overflow:hidden;width:100%;position:fixed;inset:0;display:flex;flex-direction:column;overscroll-behavior:none;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
 header{background:var(--nav);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;border-radius:0 0 18px 18px;flex:none;position:relative;z-index:6}
 .eyebrow{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#aeb9ca;font-weight:700}h1{font-size:19px;line-height:1.1;margin:2px 0 1px}header p{margin:0;color:#cbd5e1;font-size:11px}
 .monthrow{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:10px}.monthrow button{background:#273449;color:#fff;border:1px solid #3c4b62;border-radius:9px;padding:3px 11px;font-size:15px;line-height:1.2}.monthname{font-size:14px;font-weight:750}
@@ -54,10 +58,6 @@ header{animation:drop .6s cubic-bezier(.22,1,.36,1) backwards}
 .lim,.yax span{transition:bottom .9s cubic-bezier(.22,1,.36,1)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Schichtkonto" />
 </head>
 <body>
 <header>
@@ -298,6 +298,5 @@ document.addEventListener('gesturestart',e=>e.preventDefault());
 render();firstRun=false;
 })();
 </script>
-  <script>if ("serviceWorker" in navigator) window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js"));</script>
 </body>
 </html>
